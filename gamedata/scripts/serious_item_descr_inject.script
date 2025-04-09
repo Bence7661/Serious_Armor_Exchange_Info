@@ -1,0 +1,25 @@
+local exchangeDb = serious_armor_exchange_utils.ArmorExchange
+
+function ArmorTradeInfoDescHeader(obj, sec, str)
+    if IsOutfit(obj) then
+        local trueCommunity = "actor_" .. get_actor_true_community() --The actor_ prefix is so I don't have to cut that from the character_community call.
+        local currCommunity = character_community(db.actor) --If disguised will show that.
+        local defColor = utils_xml.get_color("white", false)
+        local green = utils_xml.get_color("green", false)
+        local red = utils_xml.get_color("red", false)
+        local exchangeable = (exchangeDb[trueCommunity][sec] or exchangeDb[currCommunity][sec]) and green .. "YES\\n" or red .. "NO\\n"
+        
+        str = defColor .. "\\nExchangeable: " .. exchangeable .. defColor .. str
+        
+        -- if exchangeDb[trueCommunity][sec] or exchangeDb[currCommunity][sec] then
+        --     str = green .. "\\nArmor is exchangeable.\\n" .. defColor .. str
+        -- end
+    end
+
+    return UiOriginalBuildDescHeader(obj, sec, str)
+end
+
+function on_game_start()
+    UiOriginalBuildDescHeader = ui_item.build_desc_header
+    ui_item.build_desc_header = ArmorTradeInfoDescHeader
+end
