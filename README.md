@@ -1,9 +1,16 @@
 # Armor Exchange Info
-v1.0.0
+v2.0.0
 
-When hovering over an armor you can see if it's exchangeable or not.
+When hovering over an armor you can see to what armor you can exchange it.  
+If you're disguised then you'll see the info like so:  
+  
+Exchangeable:
+- Clear Sky -> CS-5 Exoskeleton
+- Duty -> PSZ-10d Exoskeleton
 
-![image](https://github.com/user-attachments/assets/0eec2ea9-ce65-4318-a688-fe3be9baf8a2)
+
+![image](https://github.com/user-attachments/assets/ba0fc901-f849-4509-9881-6cc685fe5651)
+
 
 # Installation
 Install with MO2. Priority does not matter.
