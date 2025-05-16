@@ -7,13 +7,28 @@ function ArmorTradeInfoDescHeader(obj, sec, str)
         local defColor = utils_xml.get_color("white", false)
         local green = utils_xml.get_color("green", false)
         local red = utils_xml.get_color("red", false)
-        local exchangeable = (exchangeDb[trueCommunity][sec] or exchangeDb[currCommunity][sec]) and green .. "YES\\n" or red .. "NO\\n"
-        
-        str = defColor .. "\\nExchangeable: " .. exchangeable .. defColor .. str
-        
-        -- if exchangeDb[trueCommunity][sec] or exchangeDb[currCommunity][sec] then
-        --     str = green .. "\\nArmor is exchangeable.\\n" .. defColor .. str
-        -- end
+        local isExchangeable = exchangeDb[trueCommunity][sec] or exchangeDb[currCommunity][sec]
+        local trueCommunityExchangeable = exchangeDb[trueCommunity][sec]
+        local currCommunityExchangeable = exchangeDb[currCommunity][sec]
+        local exchangeInfo = ""
+        local multiExchange = trueCommunityExchangeable and currCommunityExchangeable and true or false
+        local exchangeableStr = game.translate_string("armor_exchange_exchangeable")
+
+        if isExchangeable then
+            if multiExchange then
+                local trueCommArmor = ui_item.get_sec_name(trueCommunityExchangeable)
+                local currCommArmor = ui_item.get_sec_name(currCommunityExchangeable)
+                exchangeInfo = "\\n" .. exchangeableStr .. ":\\n• " .. game.translate_string(trueCommunity) .. " -> " .. green .. trueCommArmor ..
+                defColor .. " \\n• " .. game.translate_string(currCommunity) .. " -> " .. green .. currCommArmor .. "\\n"
+            else
+                local armorName = ui_item.get_sec_name(isExchangeable)
+                exchangeInfo = "\\n" .. exchangeableStr .. " -> " .. green .. armorName .. "\\n"
+            end
+        else
+            exchangeInfo = "\\n" .. exchangeableStr .. ": " .. red .. game.translate_string("armor_exchange_no") .. "\\n"
+        end
+
+        str = defColor .. exchangeInfo .. defColor .. str
     end
 
     return UiOriginalBuildDescHeader(obj, sec, str)
